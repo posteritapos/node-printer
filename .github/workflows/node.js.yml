@@ -52,5 +52,5 @@ jobs:
           release_name: Release ${{ matrix.os }}-${{ matrix.node-version }}
           body: |
             This is the release for ${{ matrix.os }} with Node.js ${{ matrix.node-version }}
-          draft: false
+          draft: true
           prerelease: false
