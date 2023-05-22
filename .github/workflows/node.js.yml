@@ -5,35 +5,38 @@ name: Node.js CI
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  release:
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+          - os: macos-latest
+          - os: windows-latest
+    runs-on: ${{ matrix.platform }}
     steps:
-    - name: Install CUPS dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libcups2-dev
-    - uses: actions/checkout@v3    
-    - run: ls
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: "./"
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # for projects that use labels and PRs,
+      # try https://github.com/mikepenz/release-changelog-builder-action instead
+      # TODO: use API to collect commit messages
+      - name: Install CUPS dependencies
+      if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcups2-dev
+
+      - name: Node.js setup
+        uses: actions/setup-node@v3
+        # NOTE: enterprise developers may hard code a version
+        with:
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: "./"
     - run: npm install
     - run: npm run rebuild_x64
-    - run: npm run rebuild_ia32
     - run: npm test
