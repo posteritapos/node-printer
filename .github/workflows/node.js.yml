@@ -21,6 +21,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: Install CUPS dependencies
+    - run: sudo apt-get update
+    - run: sudo apt-get install -y libcups2-dev
     - uses: actions/checkout@v3    
     - run: ls
     - name: Use Node.js ${{ matrix.node-version }}
