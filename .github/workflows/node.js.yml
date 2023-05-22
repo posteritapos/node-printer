@@ -21,7 +21,7 @@ jobs:
       # try https://github.com/mikepenz/release-changelog-builder-action instead
       # TODO: use API to collect commit messages
       - name: Install CUPS dependencies
-      if: matrix.platform == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y libcups2-dev
@@ -33,6 +33,6 @@ jobs:
           node-version: latest
           cache: 'npm'
           cache-dependency-path: "./"
-    - run: npm install
-    - run: npm run rebuild_x64
-    - run: npm test
+      - run: npm install
+      - run: npm run rebuild_x64
+      - run: npm test
