@@ -1,0 +1,17 @@
+{
+  "name": "node-printer",
+  "version": "1.0.0",
+  "description": "Node Printer addon using NAPI to getPrinters and sendRAW print job to printer.  Fork of https://github.com/thiagoelg/node-printer",
+  "main": "printer.js",
+  "scripts": {
+    "test": "node test/test-printer.js",
+    "rebuild_x64": "node-gyp rebuild --arch=x64",
+    "rebuild_ia32": "node-gyp rebuild --arch=ia32"
+  },
+  "author": "praveen.beekoo",
+  "license": "ISC",
+  "dependencies": {
+    "node-addon-api": "^5.0.0",
+    "node-gyp": "^9.3.0"
+  }
+}
