@@ -54,3 +54,13 @@ jobs:
             This is the release for ${{ matrix.os }} with Node.js ${{ matrix.node-version }}
           draft: true
           prerelease: false
+          
+      - name: Upload asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./lib/*.node
+          asset_name: node_printer_${{ matrix.os }}.node
+      
