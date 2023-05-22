@@ -29,7 +29,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: "./"
-    - run: npm ci
+    - run: npm install
     - run: npm run rebuild_x64
     - run: npm run rebuild_ia32
     - run: npm test
