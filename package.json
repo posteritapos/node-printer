@@ -5,6 +5,7 @@
   "main": "printer.js",
   "scripts": {
     "test": "node test/test-printer.js",
+    "rename": "node rename.js",
     "rebuild_x64": "node-gyp rebuild --arch=x64",
     "rebuild_ia32": "node-gyp rebuild --arch=ia32"
   },

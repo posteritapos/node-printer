@@ -36,9 +36,8 @@ jobs:
       - run: npm install
       - run: npm run rebuild_x64
 
-      - name: Copy
-        if: matrix.platform == 'ubuntu-latest'
-        run: cp build/Release/node_printer.node lib/node_printer_linux_x64.node
+      - name: rename
+        run: npm run rename
 
       - name: Test
         run: npm test

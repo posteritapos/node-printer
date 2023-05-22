@@ -11,7 +11,7 @@
       "copies": [
         {
           "files": [ "<(PRODUCT_DIR)/<(module_name).node" ],
-          "destination": "<(module_path)/<(OS)/<(target_arch)"
+          "destination": "<(module_path)"
         }
       ]
     },
