@@ -1,0 +1,49 @@
+name: Release Builds - macOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release_mac:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2      
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: "./"
+
+      - name: Build and package
+        run: |
+          # Replace this with your build commands
+          npm install
+          npm run rename
+          npm test
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: macOS
+          release_name: Release macOS
+          body: |
+            This is the release for macOS
+          draft: false
+          prerelease: false
+
+      - name: Upload asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./lib/node-printer.node
+          asset_name: node-printer.node
+          asset_content_type: application/octet-stream
