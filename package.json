@@ -8,6 +8,7 @@
     "rename": "node rename.js",
     "rebuild_x64": "node-gyp rebuild --arch=x64",
     "rebuild_ia32": "node-gyp rebuild --arch=ia32"
+    "clean": "node-gyp clean"
   },
   "author": "praveen.beekoo",
   "license": "ISC",
