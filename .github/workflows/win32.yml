@@ -1,0 +1,58 @@
+name: Release Builds - Windows 32
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release_win:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        platform: [win32]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2      
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: "./"
+          
+      - name: Set up MSVC 32-bit
+        run: |
+          # Install 32-bit version of MSVC
+          choco install -y msvc2017-workload-vctools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+
+      - name: Build and package
+        run: |
+          # Replace this with your build commands
+          npm install
+          npm run rename
+          npm test
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: Windows 32-bit
+          release_name: This is the release for 32-bit Windows
+          body: |
+            This is the release for Windows 32-bit
+          draft: false
+          prerelease: false
+
+      - name: Upload asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./lib/node_printer.node
+          asset_name: node_printer.node
+          asset_content_type: application/octet-stream
