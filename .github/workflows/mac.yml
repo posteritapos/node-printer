@@ -34,7 +34,7 @@ jobs:
           tag_name: macOS
           release_name: Release macOS
           body: |
-            This is the release for ${{ RUNNER_OS }} ${{ RUNNER_OS }} ${{ RUNNER_ARCH }}
+            This is the release for ${{ RUNNER_OS }} ${{ RUNNER_ARCH }}
           draft: false
           prerelease: false
 
