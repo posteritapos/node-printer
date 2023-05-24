@@ -1,4 +1,4 @@
-name: Release Builds - Windows 32
+name: Release Builds - Windows 32 bit
 
 on:
   workflow_dispatch:
@@ -6,10 +6,6 @@ on:
 jobs:
   release_win:
     runs-on: windows-latest
-    
-    strategy:
-      matrix:
-        platform: [win32]
 
     steps:
       - name: Checkout code
@@ -21,11 +17,6 @@ jobs:
           node-version: latest
           cache: 'npm'
           cache-dependency-path: "./"
-          
-      - name: Set up MSVC 32-bit
-        run: |
-          # Install 32-bit version of MSVC
-          choco install -y msvc2017-workload-vctools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
 
       - name: Build and package
         run: |
@@ -33,6 +24,7 @@ jobs:
           npm install
           npm run rename
           npm test
+          npm run rebuild_ia32
 
       - name: Create release
         id: create_release
@@ -41,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: Windows 32-bit
-          release_name: This is the release for 32-bit Windows
+          release_name: Release Windows 32-bit
           body: |
             This is the release for Windows 32-bit
           draft: false
