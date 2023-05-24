@@ -1,0 +1,54 @@
+name: Release Builds - Ubuntu
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release_ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install CUPS dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcups2-dev
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: "./"
+
+      - name: Build and package
+        run: |
+          # Replace this with your build commands
+          npm install
+          npm run rename
+          npm test
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ubuntu
+          release_name: Release Ubuntu
+          body: |
+            This is the release for Ubuntu
+          draft: false
+          prerelease: false
+
+      - name: Upload asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./lib/node-printer.node
+          asset_name: node-printer.node
+          asset_content_type: application/octet-stream
