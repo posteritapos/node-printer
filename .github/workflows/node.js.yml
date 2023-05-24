@@ -34,7 +34,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: "./"
       - run: npm install
-      - run: npm run rebuild_x64
+      #- run: npm run rebuild_x64
 
       - name: rename
         run: npm run rename
@@ -63,4 +63,5 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./lib/*.node
           asset_name: node_printer_${{ matrix.os }}.node
+          asset_content_type: application/octet-stream
       
