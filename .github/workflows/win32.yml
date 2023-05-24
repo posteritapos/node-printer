@@ -24,7 +24,7 @@ jobs:
           npm install
           npm run rename
           npm test
-          node-gyp clean
+          npm run clean
           npm run rebuild_ia32
 
       - name: Create release
