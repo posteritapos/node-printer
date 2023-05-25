@@ -62,28 +62,11 @@ class ExampleAddon : public Napi::Addon<ExampleAddon> {
     if (info.Length() < 5 ) {
        Napi::TypeError::New(env, "Expected 5 arguments").ThrowAsJavaScriptException();
     }    
-    
-	  
-    Napi::String str;
-	  
-    str = info[0].ToString();
-    std::string data = str.Utf8Value();
-	
-    str = info[1].ToString();
-    std::string printername = str.Utf8Value();
-	  
-    str = info[2].ToString();
-    std::string docname = str.Utf8Value();
-	  
-    str = info[3].ToString();
-    std::string type = str.Utf8Value();
-	
-	  /*
-    std::string data = info[0].As<Napi::String>().Utf8Value();
-    std::string printername = info[1].As<Napi::String>().Utf8Value();
-    std::string docname = info[2].As<Napi::String>().Utf8Value();
-    std::string type = info[3].As<Napi::String>().Utf8Value(); //RAW
-    */
+     
+    std::string data = info[0].As<Napi::String>().Utf8Value<size_t>();
+    std::string printername = info[1].As<Napi::String>().Utf8Value<size_t>();
+    std::string docname = info[2].As<Napi::String>().Utf8Value<size_t>();
+    std::string type = info[3].As<Napi::String>().Utf8Value<size_t>(); //RAW
 
     LPTSTR szPrinterName = (LPTSTR)(printername.c_str());
     LPVOID  lpData = (LPVOID)(data.c_str()); 
