@@ -36,7 +36,7 @@ jobs:
           release_name: Release Windows 32-bit
           body: |
             This is the release for Windows 32-bit
-          draft: false
+          draft: true
           prerelease: false
 
       - name: Upload asset
