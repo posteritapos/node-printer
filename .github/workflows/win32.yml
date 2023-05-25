@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          architecture: x86
           cache: 'npm'
           cache-dependency-path: "./"
 
@@ -24,8 +25,6 @@ jobs:
           npm install
           npm run rename
           npm test
-          npm run clean
-          npm run rebuild_ia32
 
       - name: Create release
         id: create_release
